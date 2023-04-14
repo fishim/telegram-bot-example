@@ -3,6 +3,8 @@ from telebot import types
 from config import TgBot
 bot = telebot.TeleBot(str(TgBot.TELEGRAM_TOKEN))#вказуємо токен бота
 
+def process_reply(message):
+    assert message.message_id == message.reply_to_message.message_id
 @bot.message_handler(commands=['start'])
 def main(message):                                         #функція для повернення команди
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
@@ -12,6 +14,7 @@ def main(message):                                         #функція дл�
 
 @bot.message_handler(commands=['delete'])
 def delete(message):
+
     bot.delete_message(message.chat.id, message.message_id - 1)
 
 # @bot.message_handler(func=lambda message: True)
@@ -24,8 +27,6 @@ def mess(message):
         if message.text == 'Surprise!':
             photo = open('hello_world.png', 'rb')
             bot.send_photo(message.chat.id, photo)
-
-
 
 
 bot.infinity_polling()

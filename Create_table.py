@@ -11,9 +11,10 @@ cur = conn.cursor()
 
 # Створення таблиці Text
 cur.execute("""
-    CREATE TABLE Text (
-        Id SERIAL PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS history (
+        id SERIAL PRIMARY KEY,
         Text VARCHAR(255) NOT NULL
+        
     );
 """)
 conn.commit()
