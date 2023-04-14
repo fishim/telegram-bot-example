@@ -1,6 +1,6 @@
 import telebot
 
-bot = telebot.TeleBot('5831486734:AAGLPj77zzky_CZO7cvygiFnnT7GwmJyUaY')#вказуємо токен бота 
+bot = telebot.TeleBot('5887488636:AAEtc9otfhVPvaOOOrazVPOJeUKyKCFFiPA')#вказуємо токен бота 
 
 @bot.message_handler(commands=['start'])
 def main(message):                                         #функція для повернення команди 
