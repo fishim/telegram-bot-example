@@ -11,3 +11,5 @@ def echo_all(message):                                     #функція дл�
 	bot.send_message(message.chat.id, message.text)
 
 bot.infinity_polling()
+
+#Hello world
