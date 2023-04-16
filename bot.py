@@ -1,6 +1,6 @@
 import telebot
 from telebot import types
-from config import TgBot
+from env.config import TgBot
 bot = telebot.TeleBot(str(TgBot.TELEGRAM_TOKEN))#вказуємо токен бота
 
 def process_reply(message):

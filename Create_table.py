@@ -1,5 +1,5 @@
 import psycopg2
-from config import DbConfig
+from env.config import DbConfig
 # Підключення до бази даних (Назва, користувач, пароль, хост, порт)
 conn = psycopg2.connect(database = DbConfig.DATABASE,
                         user = DbConfig.USER,
