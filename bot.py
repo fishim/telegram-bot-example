@@ -1,21 +1,20 @@
-import telebot
-from telebot import types
+from telebot import types, telebot
 from env.config import TgBot
-bot = telebot.TeleBot(str(TgBot.TELEGRAM_TOKEN))#вказуємо токен бота
 
-def process_reply(message):
-    assert message.message_id == message.reply_to_message.message_id
+bot = telebot.TeleBot(str(TgBot.TELEGRAM_TOKEN))  # вказуємо токен бота
+
 @bot.message_handler(commands=['start'])
-def main(message):                                         #функція для повернення команди
+def main(message):  # функція для повернення команди
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     btn1 = types.KeyboardButton('Surprise!')
     markup.add(btn1)
     bot.send_message(message.chat.id, message.text, reply_markup=markup)
 
+
 @bot.message_handler(commands=['delete'])
 def delete(message):
-
     bot.delete_message(message.chat.id, message.message_id - 1)
+
 
 # @bot.message_handler(func=lambda message: True)
 # def echo_all(message):                                     #функція для повернення повідомлення
@@ -29,6 +28,6 @@ def mess(message):
             bot.send_photo(message.chat.id, photo)
 
 
-bot.infinity_polling()
+bot.polling(skip_pending = True)
 
-#Hello world
+# Hello world
