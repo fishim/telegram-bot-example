@@ -15,12 +15,14 @@ def db_start():  # Підключення до бази даних (Назва, користувач, пароль, хост, п
     cur.execute("""
         CREATE TABLE IF NOT EXISTS history (
             id SERIAL PRIMARY KEY,
+            user_id INTEGER,
             Text VARCHAR(255) NOT NULL
+            date TIMESTAMP
             
         );
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
-            user_id VARCHAR(255),
+            user_id INTEGER,
             user_name VARCHAR(255)
             
         );
@@ -36,10 +38,10 @@ def add_user(user_id, user_name):
     cur.execute("INSERT INTO users (user_id, user_name) VALUES (%s, %s)", (user_id, user_name,))
     conn.commit()
 
-def save_message(message):  # Змінна str для передачі в базу
-    Message = str(message)
+def save_message(message, user_id, time):  # Змінна str для передачі в базу
+
     try:    # Виконання запиту для вставки повідомлення до таблиці бази даних
-        cur.execute("INSERT INTO Text (Text) VALUES (%s)", (Message,))
+        cur.execute("INSERT INTO history (Text, user_id, time) VALUES (%s, %s, %s)", (message, user_id, time,))
         conn.commit()
     except psycopg2.Error as e:
         print(f"Error inserting driver: {e}")
