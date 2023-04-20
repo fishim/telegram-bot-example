@@ -8,8 +8,10 @@ def on_startup():
     print('It is online')
     dbOperation.db_start()
 
+
 @bot.message_handler(commands=['start'])
 def main(message):  # функція для повернення команди
+    dbOperation.save_message(message)
     if (not dbOperation.user_exist(message.chat.id)):
         dbOperation.add_user(message.chat.id, message.from_user.first_name)
         send_mess = f"Hi, you're new here!"
@@ -25,23 +27,34 @@ def main(message):  # функція для повернення команди
 
 @bot.message_handler(commands=['delete'])
 def delete(message):
+    dbOperation.save_message(message)
     bot.delete_message(message.chat.id, message.message_id - 1)
-
-
 
 @bot.message_handler(content_types=['text'])
 def mess(message):
-
+    dbOperation.save_message(message)
     if message.chat.type == 'private':
         if message.text == 'Surprise!':
             photo = open('hello_world.png', 'rb')
             bot.send_photo(message.chat.id, photo)
-        if message.text == 'History':
-            bot.send_message(message.chat.id, message.text)
+        elif message.text == 'History':
+            rows = dbOperation.get_chat_history(message)
+            response = "Your chat history:"
+            if len(rows) == 0:
+                bot.reply_to(message, "Історія чату порожня.")
+
+            else:
+                for row in rows:
+                    username = row[1]
+                    message_text = row[2]
+                    date = row[3].strftime("%Y-%m-%d %H:%M:%S")
+                    response += f"\n{date} - {username}: {message_text}"
+                bot.send_message(message.chat.id, response)
         else:
             echo_all(message)
 
-@bot.message_handler(func=lambda message: True)         #функція для повернення повідомлення
+
+#@bot.message_handler(func=lambda message: True)    #функція для повернення повідомлення
 def echo_all(message):
     bot.send_message(message.chat.id, message.text)
 
